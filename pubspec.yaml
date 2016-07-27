@@ -1,0 +1,4 @@
+name: OsmoCoding
+
+dependencies:
+  browser: any
