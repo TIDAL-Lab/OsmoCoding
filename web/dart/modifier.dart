@@ -121,8 +121,9 @@ class Modifier extends Touchable {
     _lastY = c.touchY;
     if (block != null) {
       block.modifier = null;
+      CodingBlock target = block;
       block = null;
-      workspace.sendCommand("changed");
+      workspace.sendCommand("changed", target);
     }
     return true;
   }
@@ -130,7 +131,7 @@ class Modifier extends Touchable {
 
   void touchUp(Contact c) {
     if (connectToBlock()) {
-      workspace.sendCommand("changed");
+      workspace.sendCommand("changed", block);
       Sounds.playSound("click");
     }
     workspace.draw();

@@ -71,14 +71,14 @@ class PlayButton extends Touchable {
   }
 
   bool touchDown(Contact c) { 
-    start.workspace.sendCommand("play");
+    start.workspace.sendCommand("play", start);
     down = true; 
     return true; 
   }
   void touchUp(Contact c) { 
     down = false; 
     start.workspace.draw(); 
-    start.workspace.sendCommand("stop");
+    start.workspace.sendCommand("stop", start);
   }
   void touchDrag(Contact c) {  }
   void touchSlide(Contact c) {  }

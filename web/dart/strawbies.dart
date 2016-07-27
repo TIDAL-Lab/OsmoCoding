@@ -25,9 +25,6 @@ void main() {
 
 class CodingWorkspace extends TouchLayer {
   
-  /* list of blocks in the workspace */
-  //List<Block> blocks = new List<Block>();
-  
   /* size of the canvas */
   int width, height;
   
@@ -60,9 +57,24 @@ class CodingWorkspace extends TouchLayer {
     tmanager.registerEvents(canvas);
     tmanager.addTouchLayer(this);
 
-    num startX = 430;
+
+    num startX = 670;
     num startY = 100;
     num space = 130;
+    addModifier(1, startX, startY + space * 0);
+    addModifier(2, startX, startY + space * 1);
+    addModifier(2, startX + 10, startY + space * 1.3);
+    addModifier(3, startX, startY + space * 2.3);
+    addModifier(3, startX + 10, startY + space * 2.6);
+    addModifier(4, startX, startY + space * 3.6);
+    addModifier(4, startX + 10, startY + space * 3.9);
+    addModifier(5, startX, startY + space * 4.9);
+
+
+
+    startX = 430;
+    startY = 100;
+    space = 130;
 
     // REPEAT
     blocks.add(new CodingBlock.byName("repeat", startX, startY + space * 0, this));
@@ -87,18 +99,6 @@ class CodingWorkspace extends TouchLayer {
     // MAGIC
     blocks.add(new CodingBlock.byName("magic", startX, startY + space * 5.2, this));
 
-
-    startX = 670;
-    startY = 100;
-    space = 130;
-    addModifier(1, startX, startY + space * 0);
-    addModifier(2, startX, startY + space * 1);
-    addModifier(2, startX + 10, startY + space * 1.3);
-    addModifier(3, startX, startY + space * 2.3);
-    addModifier(3, startX + 10, startY + space * 2.6);
-    addModifier(4, startX, startY + space * 3.6);
-    addModifier(4, startX + 10, startY + space * 3.9);
-    addModifier(5, startX, startY + space * 4.9);
 
     draw();
     tick();
@@ -160,13 +160,13 @@ class CodingWorkspace extends TouchLayer {
   }
 
  
-  void sendCommand(String cmd) {
+  void sendCommand(String cmd, CodingBlock target) {
     var json = { };
     json["command"] = cmd;
     json["blocks"] = [];
 
     // Find the topmost block in the chain
-    CodingBlock block = start;
+    CodingBlock block = target;
     while (block.prev != null) { block = block.prev; }
 
     // Walk down the chain to construct the program as a JSON object

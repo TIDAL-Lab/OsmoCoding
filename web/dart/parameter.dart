@@ -109,7 +109,7 @@ class Parameter extends Touchable {
 
   void touchUp(Contact c) {
     _target_angle += PI / 2;
-    block.workspace.sendCommand("changed");
+    block.workspace.sendCommand("changed", block);
   }
 
 

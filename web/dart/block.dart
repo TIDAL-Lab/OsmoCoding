@@ -373,13 +373,13 @@ class CodingBlock extends Touchable {
     if (TOP_MODE && prev != null) {
       prev.next = null;
       prev = null;
-      workspace.sendCommand("changed");
+      workspace.sendCommand("changed", this);
     }
 
     if (!TOP_MODE && next != null) {
       next.prev = null;
       next = null;
-      workspace.sendCommand("changed");
+      workspace.sendCommand("changed", this);
     }
 
     _target = null;
@@ -410,7 +410,7 @@ class CodingBlock extends Touchable {
     if (_target != null) _target.touchUp(c);
     _target = null;
     if (connectBlocks()) {
-      workspace.sendCommand("changed");
+      workspace.sendCommand("changed", this);
     }
     workspace.draw();
   }
