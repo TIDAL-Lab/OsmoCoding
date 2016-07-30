@@ -53,12 +53,12 @@ class PlayButton extends Touchable {
   }
 
   void draw(CanvasRenderingContext2D ctx) {
-    w = img.width * 0.85;
-    x = start.centerX - w/2 + 6;
-    h = img.height * 0.85;
-    y = start.centerY - h/2 - 3;
-    num ix = -w/2 + 6;
-    num iy = -h/2 - 3;
+    w = img.width * BLOCK_SCALE;
+    x = start.centerX - w/2;
+    h = img.height * BLOCK_SCALE;
+    y = start.centerY - h/2;
+    num ix = -w/2;
+    num iy = -h/2;
     ctx.save();
     if (down) {ctx.globalAlpha = 0.5; }
     ctx.drawImageScaled(img, ix, iy, w, h);
