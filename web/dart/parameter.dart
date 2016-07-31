@@ -3,8 +3,8 @@ part of OsmoCoding;
 class Parameter extends Touchable {
   
 
-  num _angle = 0.0;
-  num _target_angle = 0.0;
+  num _angle = PI/2;
+  num _target_angle = PI/2;
 
   String background = "rgb(204, 204, 204)";
   String foreground = "rgb(102, 102, 102)";
