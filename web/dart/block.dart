@@ -3,7 +3,7 @@ part of OsmoCoding;
 
 const BLOCK_WIDTH = 170; //200;
 const BLOCK_HEIGHT = 85; //100;
-
+const BLOCK_SCALE = 0.85;
 const TOP_MODE = true;
 
 
@@ -111,6 +111,15 @@ class CodingBlock extends Touchable {
   }
 
 
+  bool nearRightConnector(Modifier mod) {
+    if (modifier == null && rightConnector && mod.block == null) {
+      return ((rightConnectorY - mod.rightConnectorY).abs() <= 20 &&
+              (rightConnectorX - mod.rightConnectorX).abs() <= 20);
+    }
+    return false;
+  }
+
+
   CodingBlock findTopConnection() {
     if (topConnector) {
       for (CodingBlock other in workspace.blocks) {
@@ -129,6 +138,16 @@ class CodingBlock extends Touchable {
         if (other != this) {
           if (nearTopConnector(other)) return other;
         }
+      }
+    }
+    return null;
+  }
+
+
+  Modifier findRightConnection() {
+    if (rightConnector) {
+      for (Modifier mod in workspace.modifiers) {
+        if (nearRightConnector(mod)) return mod;
       }
     }
     return null;
@@ -162,6 +181,17 @@ class CodingBlock extends Touchable {
   }
 
 
+  void dockRight(Modifier mod) {
+    if (modifier == null && mod.block == null) {
+      straighten();
+      modifier = mod;
+      mod.block = this;
+      mod.y = blockY;
+      mod.x = rightConnectorX;
+    }
+  }
+
+
   bool connectBlocks() {
     CodingBlock top = findTopConnection();
     CodingBlock bot = findBottomConnection();
@@ -187,6 +217,12 @@ class CodingBlock extends Touchable {
     bot = bottommost.findBottomConnection();
     if (bot != null) {
       bottommost.dockAbove(bot);
+      changed = true;
+    }
+
+    Modifier mod = findRightConnection();
+    if (mod != null) {
+      dockRight(mod);
       changed = true;
     }
 
@@ -231,8 +267,8 @@ class CodingBlock extends Touchable {
       }
 
       if (_img != null) {
-        num iw = _img.width * 0.85;
-        num ih = _img.height * 0.85;
+        num iw = _img.width * BLOCK_SCALE;
+        num ih = _img.height * BLOCK_SCALE;
         num ix = iw / -2;
         num iy = ih / -2 - 5;
         if (param != null) {
@@ -426,14 +462,16 @@ class CodingBlock extends Touchable {
 
 
   void _blockOutline(CanvasRenderingContext2D ctx, num bx, num by, num bw, num bh) {
-    num br = 30 * 0.85;
-    num notch = 67 * 0.85;
+    num br = 30 * BLOCK_SCALE;
+    num notch = 67 * BLOCK_SCALE;
+    num nw = 14;
+    num nh = 8;
     ctx.beginPath();
     ctx.moveTo(bx + br, by);
     if (topConnector) {
       ctx.lineTo(bx + notch, by);
-      ctx.quadraticCurveTo(bx + notch, by + 8, bx + notch + 7, by + 8);
-      ctx.quadraticCurveTo(bx + notch + 14, by + 8, bx + notch + 14, by);
+      ctx.quadraticCurveTo(bx + notch, by + nh, bx + notch + nw/2, by + nh);
+      ctx.quadraticCurveTo(bx + notch + nw, by + nh, bx + notch + nw, by);
     }
     if (rightConnector) {
       ctx.lineTo(bx + bw - 22, by);
@@ -449,9 +487,9 @@ class CodingBlock extends Touchable {
     }
 
     if (bottomConnector) {
-      ctx.lineTo(bx + notch + 14, by + bh);
-      ctx.quadraticCurveTo(bx + notch + 14, by + bh + 8, bx + notch + 7, by + bh + 8);
-      ctx.quadraticCurveTo(bx + notch, by + bh + 8, bx + notch, by + bh);
+      ctx.lineTo(bx + notch + nw, by + bh);
+      ctx.quadraticCurveTo(bx + notch + nw, by + bh + nh, bx + notch + nw/2, by + bh + nh);
+      ctx.quadraticCurveTo(bx + notch, by + bh + nh, bx + notch, by + bh);
     }
     ctx.lineTo(bx + br, by + bh);
     ctx.quadraticCurveTo(bx, by + bh, bx, by + bh - br);
