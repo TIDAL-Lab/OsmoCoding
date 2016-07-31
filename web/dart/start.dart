@@ -1,6 +1,22 @@
 part of OsmoCoding;
 
 
+
+void roundRect(CanvasRenderingContext2D ctx, num x, num y, num w, num h, num r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+
 class StartBlock extends CodingBlock {
 
   PlayButton button;
@@ -63,6 +79,18 @@ class PlayButton extends Touchable {
     if (down) {ctx.globalAlpha = 0.5; }
     ctx.drawImageScaled(img, ix, iy, w, h);
     ctx.restore();
+    ctx.fillStyle = "white";
+    roundRect(ctx, -95, -32, 48, 18, 10);
+    ctx.fill();
+    roundRect(ctx, w + 2, -32, 48, 18, 10);
+    ctx.fill();
+    if (down) {
+      ctx.fillStyle = "black";
+      roundRect(ctx, -90, -28, 38, 10, 5);
+      ctx.fill();
+      roundRect(ctx, w + 7, -28, 38, 10, 5);
+      ctx.fill();
+    }
   }
 
 
