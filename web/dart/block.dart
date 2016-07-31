@@ -402,20 +402,24 @@ class CodingBlock extends Touchable {
   bool containsTouch(Contact c) {
     return (_cp0.containsTouch(c) || _cp1.containsTouch(c) || _cp2.containsTouch(c));
   }
+
+
+  bool _disconnected = false;
  
 
   bool touchDown(Contact c) {
+    _disconnected = false;
 
     if (TOP_MODE && prev != null) {
       prev.next = null;
       prev = null;
-      workspace.sendCommand("changed", this);
+      _disconnected = true;
     }
 
     if (!TOP_MODE && next != null) {
       next.prev = null;
       next = null;
-      workspace.sendCommand("changed", this);
+      _disconnected = true;
     }
 
     _target = null;
@@ -445,7 +449,7 @@ class CodingBlock extends Touchable {
   void touchUp(Contact c) { 
     if (_target != null) _target.touchUp(c);
     _target = null;
-    if (connectBlocks()) {
+    if (connectBlocks() || prev != null || next != null || !_disconnected) {
       workspace.sendCommand("changed", this);
     }
     workspace.draw();
