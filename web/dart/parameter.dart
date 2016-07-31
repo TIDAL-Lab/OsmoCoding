@@ -32,6 +32,7 @@ class Parameter extends Touchable {
     if (_angle != _target_angle) {
       num delta = _target_angle - _angle;
       if (delta.abs() < 0.05) {
+        if (_target_angle >= PI * 2) _target_angle = 0.0;
         _angle = _target_angle;
         Sounds.playSound("tick");
       }
