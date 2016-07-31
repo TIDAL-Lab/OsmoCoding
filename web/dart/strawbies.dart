@@ -155,6 +155,7 @@ class CodingWorkspace extends TouchLayer {
       ctx.clearRect(0, 0, width, height);
       modifiers.forEach((modifier) => modifier.draw(ctx));
       blocks.forEach((block) => block.draw(ctx));
+      modifiers.forEach((modifier) { if (modifier._dragging) modifier.draw(ctx); });
     }
     ctx.restore();
   }
@@ -176,7 +177,7 @@ class CodingWorkspace extends TouchLayer {
       if (block.param != null || block.modifier != null) {
         b["parameters"] = [ ];
         if (block.param != null) b["parameters"].add(block.param.toString());
-        if (block.modifier != null) b["parameters"].add(block.modifier.value);
+        if (block.modifier != null) b["parameters"].add(block.modifier.toString());
       }
       json["blocks"].add(b);
       block = block.next;
