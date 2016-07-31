@@ -32,6 +32,19 @@ class Modifier extends Touchable {
   num get rightConnectorX => x;
 
 
+  String toString() {
+    switch (value) {
+    case 1: return "one";
+    case 2: return "two";
+    case 3: return "three";
+    case 4: return "four";
+    case 5: return "five";
+    case 6: return "six";
+    }
+    return "one";
+  }
+
+
   bool animate() { return _dragging; }
 
 
@@ -70,7 +83,7 @@ class Modifier extends Touchable {
 
 
   void draw(CanvasRenderingContext2D ctx) {
-    num br = 30 * 0.85;
+    num br = 30 * BLOCK_SCALE;
     ctx.save();
     {
       ctx.beginPath();
@@ -100,8 +113,8 @@ class Modifier extends Touchable {
       ctx.strokeStyle = "white";
       ctx.lineWidth = highlightConnector() ? 5 : 2;
       ctx.stroke();
-      num iw = image.width * 0.85;
-      num ih = image.height * 0.85;
+      num iw = image.width * BLOCK_SCALE;
+      num ih = image.height * BLOCK_SCALE;
       ctx.drawImageScaled(image, x + w * 0.4, y + h/2 - ih/2, iw, ih);
     }
     ctx.restore();
@@ -134,8 +147,8 @@ class Modifier extends Touchable {
       workspace.sendCommand("changed", block);
       Sounds.playSound("click");
     }
-    workspace.draw();
     _dragging = false;
+    workspace.draw();
   }
 
 
