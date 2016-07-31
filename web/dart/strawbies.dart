@@ -13,7 +13,7 @@ part 'sounds.dart';
 part 'start.dart';
 part 'touch.dart';
 
-
+const SCALE_FACTOR = 1.3;
 
 
 void main() {
@@ -58,23 +58,23 @@ class CodingWorkspace extends TouchLayer {
     tmanager.addTouchLayer(this);
 
 
-    num startX = 670;
-    num startY = 100;
-    num space = 130;
+    num startX = 660 / SCALE_FACTOR;
+    num startY = 100 / SCALE_FACTOR;
+    num space = 130 / SCALE_FACTOR;
     addModifier(1, startX, startY + space * 0);
-    addModifier(2, startX, startY + space * 1);
-    addModifier(2, startX + 10, startY + space * 1.3);
-    addModifier(3, startX, startY + space * 2.3);
-    addModifier(3, startX + 10, startY + space * 2.6);
-    addModifier(4, startX, startY + space * 3.6);
-    addModifier(4, startX + 10, startY + space * 3.9);
-    addModifier(5, startX, startY + space * 4.9);
+    addModifier(5, startX, startY + space * 0.3);
+    addModifier(2, startX, startY + space * 1.3);
+    addModifier(2, startX + 10, startY + space * 1.6);
+    addModifier(3, startX, startY + space * 2.6);
+    addModifier(3, startX + 10, startY + space * 2.9);
+    addModifier(4, startX, startY + space * 3.9);
+    addModifier(4, startX + 10, startY + space * 4.2);
 
 
 
-    startX = 430;
-    startY = 100;
-    space = 130;
+    startX = 430 / SCALE_FACTOR;
+    startY = 100 / SCALE_FACTOR;
+    space = 130 / SCALE_FACTOR;
 
     // REPEAT
     blocks.add(new CodingBlock.byName("repeat", startX, startY + space * 0, this));
@@ -93,7 +93,7 @@ class CodingWorkspace extends TouchLayer {
     blocks.add(new CodingBlock.byName("walk", startX, startY + space * 4.2, this));
 
     // START
-    start = new CodingBlock.byName("start", 100, 700, this);
+    start = new CodingBlock.byName("start", 90 / SCALE_FACTOR, 700 / SCALE_FACTOR, this);
     blocks.add(start);
 
     // MAGIC
@@ -109,6 +109,8 @@ class CodingWorkspace extends TouchLayer {
     socket.onOpen.listen((e) => status("Connected to $server"));
     socket.onClose.listen((e) => status("Error connecting to $server"));
     socket.onError.listen((e) => status("Error connecting to $server"));
+
+    transform(SCALE_FACTOR, 0, 0, SCALE_FACTOR, 0, 0);
 
   }
 
@@ -153,6 +155,7 @@ class CodingWorkspace extends TouchLayer {
     ctx.save();
     {
       ctx.clearRect(0, 0, width, height);
+      ctx.scale(SCALE_FACTOR, SCALE_FACTOR);
       modifiers.forEach((modifier) => modifier.draw(ctx));
       blocks.forEach((block) => block.draw(ctx));
       modifiers.forEach((modifier) { if (modifier._dragging) modifier.draw(ctx); });
